@@ -1,4 +1,6 @@
 ## How to Build a Template in Proxmox
+There are several methods to create a template in Proxmox. In this section, I describe my preferred one.
+
 1- Inside the local disk of the node where we are going to create the Template, click on ISO Images and Download from URL:
   - URL: https://nl.releases.ubuntu.com/releases/24.04.3/ubuntu-24.04.3-live-server-amd64.iso (for example)
   - Click on Query URL and Download.
@@ -24,7 +26,7 @@
 
 4- Go to the Cloud-Init tab and configure it as you wish (Do not forget to click on Regenerage Image when you are done).
 
-5- Start the VM and go to the Ubuntu installation process (just accept the default options).
+5- Start the VM and go through the Ubuntu installation process (just accept the default options if unsure).
 
 6- Run the following commands:
   - sudo apt dist-upgrade
@@ -44,13 +46,14 @@
 11- Remove the attachment to the ISO:
   - Click on Hardware tab - Remove CD/DVD Drive
 
-### Reference
-- [Proxmox VE - How to build an Ubuntu 22.04 Template (Updated Method)](https://www.youtube.com/watch?v=MJgIm03Jxdo)
-
 ## How to Create a New VM from a Template in Proxmox
 1- Clone the Template:
   - Mode: Full Clone
   - Target Source: local-lvm
 
-2- Now, you can do SSH to the VM. Finally, install QEMU Guest Agent (ensure that it is enabled in the Options tab):
+2- Now, you can do SSH to the VM. Finally, install and start QEMU Guest Agent (ensure that it is enabled in the Options tab):
+  - sudo apt install qemu-guest-agent
   - sudo systemctl start qemu-guest-agent
+
+### Reference
+- [Proxmox VE - How to build an Ubuntu 22.04 Template (Updated Method)](https://www.youtube.com/watch?v=MJgIm03Jxdo)

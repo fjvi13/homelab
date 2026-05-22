@@ -135,3 +135,7 @@ Inside a client machine (peer member of the Meshnet), do the following:
 3- Run `ssh -D 8080 labuser@<vpn-server_ip>`.  
 4- Download the *FoxyProxy* Google Chrome extension and add SOCKS4 Proxy (*Hostname: localhotst port:8080*).  
 4- Try `http://<service_name>` connection in Google Chrome.
+
+
+sudo /opt/homebrew/bin/bash wg-quick up wg0
+sudo /opt/homebrew/bin/bash wg-quick down wg0

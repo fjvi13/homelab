@@ -1,6 +1,6 @@
-## Steps to add a new node to the K3s cluster
-1- Create a new VM (see blablabla)  
-2- Install LVM: 
+## Steps to add a new node to a K3s cluster
+1- Create a new VM [vms.md](./vms.md)  
+2- Install LVM (if it hasn't been done yet): 
   - sudo apt install -y lvm2  
   - sudo systemctl status lvm2-monitor.service
 

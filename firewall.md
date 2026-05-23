@@ -1,7 +1,6 @@
 # Proxmox Firewall
 This file provides details about Proxmox Firewall and the default configuration applied.
 
-
 ## Documentation
 - https://pve.proxmox.com/wiki/Firewall
 - https://www.youtube.com/watch?v=DNsLLrCgK0U&list=PLT98CRl2KxKHnlbYhtABg6cF50bYa8Ulo&index=13

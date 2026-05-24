@@ -1,8 +1,9 @@
 # Networking
+Overview of the homelab network topology, VLANs, and device configurations.
 
 <figure>
   <img src="./assets/images/homelab-L3-arquitecture-diagram.png" width="750" alt="L3 Architecture Diagram">
-  <figcaption>L3 Arquitecture Diagram</figcaption>
+  <figcaption>L3 Architecture Diagram</figcaption>
 </figure>
 
 ## Network List
@@ -25,7 +26,7 @@
 - Also accessible via Wi-Fi through *ISP Home Gateway AP-Router*. 
 
 > [!WARNING]
-> Major updates are planned on this with the purpose of splitting the guests' Wi-Fi access from the MGMT network (for security reasons).
+> Major updates are planned to split the guests' Wi-Fi access from the MGMT network (for security reasons).
 
 ### VLAN 10: Lab Network
 *10.0.1.0/24* 
@@ -42,7 +43,7 @@
 - It is the main Homelab network where all Proxmox VMs and LXCs are deployed by default.
 
 ### VLAN 20: DMZ Network
-*10.0.0.0/24*  
+*10.0.0.0/28*  
 
 **Relevant IPs**
 - 10.0.0.1: pfSense
@@ -56,7 +57,7 @@
   - NordVPN Meshnet Bastion Host
 
 **Notes**
-- Demilitarized Zone Network that hosts the VPN Bastion Servers that allow secure access to some services located in the Lab Network.
+- Demilitarized Zone network hosting the VPN bastion servers, which provide secure access to services in the Lab network.
 
 ### VLAN 30: IoT Network 
 > [!NOTE]
@@ -65,7 +66,7 @@
 ## Configuration
 <figure>
   <img src="./assets/images/homelab-L2-arquitecture-diagram.png" width="750" alt="L2 Architecture Diagram">
-  <figcaption>L2 Arquitecture Diagram with some relevant VMs. See the full [VM inventory](./vm-inventory.md) </figcaption>
+  <figcaption>L2 Architecture Diagram with some relevant VMs. See the full [VM inventory](./vm-inventory.md).</figcaption>
 </figure>
 
 ### Switch - 802.1Q VLAN Configuration
@@ -112,7 +113,7 @@
 | Interface | Subnet      | Address Pool Range   |
 |-----------|-------------|----------------------|
 | LAB       | 10.0.1.0/24 | 10.0.1.20-10.0.1.254 |
-| DMZ       | 10.0.1.0/28 | 10.0.0.8-10.0.0.14   |
+| DMZ       | 10.0.0.0/28 | 10.0.0.8-10.0.0.14   |
 
 
 **DHCP Server Static Mappings**
@@ -133,4 +134,4 @@
 *WIP*
 
 ### VMs Network Configuration
-See the full [VM inventory](./vm-inventory.md)
+See the full [VM inventory](./vm-inventory.md).

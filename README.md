@@ -22,12 +22,13 @@ homelab/
 │   ├── wg-vpn-to-homelab.md  # WireGuard VPN setup guide
 │   ├── nordvpn-to-homelab.md # NordVPN Meshnet access guide
 │   ├── faq.md                # Frequently asked questions
-│   ├── pending_tasks.md      # Ongoing and planned work
-│   └── assets/
-│       └── images/           # Diagrams and screenshots
+│   ├── roadmap.md            # Ongoing and planned work
+│   └── assets/images/        # Diagrams and screenshots
 ├── tutorials/
 │   ├── k3s.md                # K3s cluster setup
 │   └── vms.md                # VM provisioning
+├── projects/                 # Personal projects deployed in the lab
+├── old/                      # Legacy / archived notes
 └── README.md
 ```
 

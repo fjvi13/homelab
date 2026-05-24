@@ -14,7 +14,7 @@ As an experienced DevOps and platform engineer, I wanted a place to run my perso
 ## Repo Structure
 
 ```
-homelab-documentation/
+homelab/
 ├── docs/
 │   ├── hardware.md           # Hardware specs, diagrams, and budget
 │   ├── networking.md         # Network topology, VLANs, and device configurations

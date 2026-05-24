@@ -1,15 +1,21 @@
 # Networking
 Overview of the homelab network topology, VLANs, and device configurations.
 
-<figure>
-  <img src="./assets/images/homelab-L3-arquitecture-diagram.png" width="750" alt="L3 Architecture Diagram">
-  <figcaption>L3 Architecture Diagram</figcaption>
-</figure>
+
+<img src="./assets/images/homelab-L3-arquitecture-diagram.png" width="750" alt="L3 Architecture Diagram">
+
+*L3 Architecture Diagram*
 
 ## Network List
 
 ### VLAN 0 (Default): Home Network
 *192.168.1.0/24*  
+
+It is the Home LAN network and the Homelab MGMT network.  
+Also accessible via Wi-Fi through *ISP Home Gateway AP-Router*. 
+
+> [!WARNING]
+> Major updates are planned to split the guests' Wi-Fi access from the MGMT network (for security reasons).
 
 **Relevant IPs**
 - 192.168.1.1: ISP Home Gateway AP-Router
@@ -21,15 +27,10 @@ Overview of the homelab network topology, VLANs, and device configurations.
 - 192.168.1.4: PVE1 MGMT IP
 - 192.168.1.5: PVE2 MGMT IP
 
-**Notes**
-- It is the Home LAN network and the Homelab MGMT network. 
-- Also accessible via Wi-Fi through *ISP Home Gateway AP-Router*. 
-
-> [!WARNING]
-> Major updates are planned to split the guests' Wi-Fi access from the MGMT network (for security reasons).
-
 ### VLAN 10: Lab Network
 *10.0.1.0/24* 
+
+It is the main Homelab network where all Proxmox VMs and LXCs are deployed by default.  
 
 **Relevant IPs**
 - 10.0.1.1: pfSense
@@ -39,11 +40,10 @@ Overview of the homelab network topology, VLANs, and device configurations.
 - 10.0.1.5 | 10.0.1.4 | 10.0.1.6: K3s Central Cluster Nodes (Master | Worker 1 | Worker 2)
 - 10.0.1.15 | 10.0.1.16: K3s Remote Cluster Nodes (Master | Worker 1)
 
-**Notes**
-- It is the main Homelab network where all Proxmox VMs and LXCs are deployed by default.
-
 ### VLAN 20: DMZ Network
 *10.0.0.0/28*  
+
+Demilitarized Zone network hosting the VPN bastion servers, which provide secure access to services in the Lab network. 
 
 **Relevant IPs**
 - 10.0.0.1: pfSense
@@ -56,18 +56,14 @@ Overview of the homelab network topology, VLANs, and device configurations.
 - 10.0.0.3: NordVPN Server
   - NordVPN Meshnet Bastion Host
 
-**Notes**
-- Demilitarized Zone network hosting the VPN bastion servers, which provide secure access to services in the Lab network.
-
 ### VLAN 30: IoT Network 
 > [!NOTE]
 > Work in progress
 
 ## Configuration
-<figure>
-  <img src="./assets/images/homelab-L2-arquitecture-diagram.png" width="750" alt="L2 Architecture Diagram">
-  <figcaption>L2 Architecture Diagram with some relevant VMs. See the full [VM inventory](./vm-inventory.md).</figcaption>
-</figure>
+<img src="./assets/images/homelab-L2-arquitecture-diagram.png" width="750" alt="L2 Architecture Diagram">
+
+*L2 Architecture Diagram with some relevant VMs*
 
 ### Switch - 802.1Q VLAN Configuration
 | VLAN ID | VLAN Name | Untagged Ports | Tagged Ports |

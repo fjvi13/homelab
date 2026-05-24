@@ -1,10 +1,10 @@
-# FAQ
+# FAQs
 - *¿Coincide el uso de almacenamiento de un nodo (local-lvm) con el uso de cada una de las VMs que lo componen?*  
 Evidentemente sí. No obstante, a menudo el reporte de uso no cuadran debido a que aún no se ha ejecutado el TRIM del LVM.
-![pve1-disk-usag](images/pve1-disk-usage.png)
-![lvs-pve1](images/lvs-pve1.png)
-![vm200-df](images/vm200-df.png)
-![vm201-df](images/vm201-df.png)
+![pve1-disk-usag](assets/images/pve1-disk-usage.png)
+![lvs-pve1](assets/images/lvs-pve1.png)
+![vm200-df](assets/images/vm200-df.png)
+![vm201-df](assets/images/vm201-df.png)
 
 Vemos que en el caso de las imágenes, al haberse realizado recientemente el trim (columna *Data%* en la salida de `lvs`), el reporte de porcentaje de usos coincide. El VG *k8s-vg* está gestionado por TopoLVM y para ver el uso real de sus LVs, habría que montar cada uno de sus discos correspondientes (`/dev/k8s-vg/*`) en modo lectura o consultarlo directamente en sus Pods (donde ya seguramente estén montados). No obstante, lo más recomendable es verificar su uso en la monitorización.
 

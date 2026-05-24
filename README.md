@@ -93,3 +93,24 @@ Running on top of this network are two Kubernetes clusters and a pair of VPN bas
 - A **K3s "Central" cluster** spread across both Proxmox nodes (1 master + 2 workers). This is my main playground for deploying services.
 - A **K3s "Remote" cluster** (1 master + 1 worker) used to experiment with multi-cluster scenarios.
 - A **WireGuard server** and a **NordVPN Meshnet bastion**, both living in the DMZ, that let me reach lab services from anywhere.
+
+## Roadmap
+
+Some of the things I am planning to work on next. See [pending_tasks.md](./docs/pending_tasks.md) for the full backlog.
+
+- Split the Home Network into a dedicated **MGMT network** and a **Guest Wi-Fi network**.
+- Bring the **IoT VLAN (30)** online for smart-home devices.
+- Replace the ISP-provided router with my own equipment.
+- Deploy and document some personal projects.
+
+## References & Inspiration
+
+A few of the resources that helped me along the way:
+
+- [Learn Linux TV](https://www.youtube.com/@LearnLinuxTV)
+- [Evyn Hedgpeth's articles](https://medium.com/@emhedge)
+- [Proxmox VE Documentation](https://pve.proxmox.com/pve-docs/)
+
+## Feedback & Contact
+
+This is a living project — I am always iterating on it. If you want to suggest anything, or are building something similar, please reach out. I am happy to discuss homelabbing, networking, or Kubernetes.

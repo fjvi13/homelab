@@ -96,7 +96,7 @@ Running on top of this network are two Kubernetes clusters and a pair of VPN bas
 
 ## Roadmap
 
-Some of the things I am planning to work on next. See [pending_tasks.md](./docs/pending_tasks.md) for the full backlog.
+Some of the things I am planning to work on next. See [roadmap](./docs/roadmap.md) for the full backlog.
 
 - Split the Home Network into a dedicated **MGMT network** and a **Guest Wi-Fi network**.
 - Bring the **IoT VLAN (30)** online for smart-home devices.
@@ -108,6 +108,7 @@ Some of the things I am planning to work on next. See [pending_tasks.md](./docs/
 A few of the resources that helped me along the way:
 
 - [Learn Linux TV](https://www.youtube.com/@LearnLinuxTV)
+- [Mischa van den Burg](https://www.youtube.com/@mischavandenburg)
 - [Evyn Hedgpeth's articles](https://medium.com/@emhedge)
 - [Proxmox VE Documentation](https://pve.proxmox.com/pve-docs/)
 

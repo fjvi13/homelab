@@ -1,4 +1,4 @@
-# Homelab Documentation
+# My Homelab
 
 In this repository, I document the homelab I have been building over the last year. The goal of this repo is to share my homelabbing journey: the choices, the constraints, the trade-offs, and the things I have learned (and broken) along the way.
 
@@ -33,7 +33,7 @@ homelab-documentation/
 
 ## What I Wanted to Build
 
-<img src="./docs/assets/images/proxmox-menu.png" width="600" alt="Proxmox Menu">
+<img src="./docs/assets/images/proxmox-menu.png" width="700" alt="Proxmox Menu">
 
 Before buying any hardware I tried to be honest about what I actually wanted out of this lab:
 
@@ -66,7 +66,7 @@ At this moment, the internet uplink and the home Wi-Fi are still handled by the 
 
 ## The Network Topology
 
-<img src="./docs/assets/images/homelab-L3-arquitecture-diagram.png" width="700" alt="L3 Architecture Diagram">
+<img src="./docs/assets/images/homelab-L3-arquitecture-diagram.png" width="800" alt="L3 Architecture Diagram">
 
 **pfSense** is the brain of the lab. It runs as a VM on `pve2` with three virtual NICs — one per VLAN — and handles routing, DHCP, and firewalling between segments.
 

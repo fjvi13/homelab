@@ -65,6 +65,8 @@ At this moment, the internet uplink and the home Wi-Fi are still handled by the 
 | tp-link TL-SG608E          | 32,99€ [2026]              |
 | DIGI ZTE H3600P            | Included with my ISP plan  |
 
+More on this in [hardware.md](./docs/hardware.md).
+
 ## The Network Topology
 
 <img src="./docs/assets/images/homelab-L3-arquitecture-diagram.png" width="800" alt="L3 Architecture Diagram">
@@ -86,6 +88,8 @@ The lab is split into the following networks:
   Reserved for future smart-home devices.
 
 On the switch, ports 2 and 3 (connected to `pve1` and `pve2`) are configured as **trunk ports** carrying VLAN 10 and VLAN 20 tagged, with VLAN 1 untagged for management. Inside each Proxmox node, all VLANs flow through a single Linux bridge (`vmbr0`); the VLAN tag is applied at the VM NIC level.
+
+See [networking.md](./docs/networking.md) for the full details.
 
 ## The Workloads
 

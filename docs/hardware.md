@@ -25,4 +25,4 @@
 | HP EliteDesk 800 G3 DM 35W | ~129€ (Refurbished) [2025] |
 | HP EliteDesk 800 G3 DM 65W | ~160€ (Refurbished) [2025] |
 | tp-link TL-SG608E          | 32,99€ [2026]              |
-| DIGI ZTE H3600P            | -                          |
+| DIGI ZTE H3600P            | Included with my ISP plan  |

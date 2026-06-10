@@ -18,3 +18,6 @@
 | VM          | 310 | wg-server               | net0: vmbr0, VLAN Tag 20                       | Wireguard Bastion Host            |
 | VM          | 915 | pfsense                 | net0: vmbr0, VLAN Tag 1 <br> net1: vmbr0, VLAN Tag 10 <br> net2: vmbr0, Tag VLAN 20 <br> net3: vmbr0, Tag VLAN 2 | pfSense Router |
 | VM Template | 808 | ubuntu-2404-template-v5 | net0: vmbr0, VLAN Tag 10                       |                                   |
+
+> [!NOTE]  
+> Check my method for creating VMs and VM Templates in [proxmox_tutorials.md](../tutorials/proxmox_tutorials.md).

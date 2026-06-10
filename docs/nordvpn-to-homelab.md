@@ -113,7 +113,7 @@ To enable VPN to Homelab we must generate the NordVPN Meshnet.
    ```
 
 > [!NOTE]
-> Get the token from the NordVPN web portal.
+> Get the NordVPN token from the NordVPN website.
 
 2. Go to the NordVPN app and click in *Link external device* to add a peer to the Meshnet.
 

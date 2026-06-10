@@ -5,7 +5,7 @@
 
   <img src="./assets/images/pve1-disk-usage.png" width="750" alt="PVE 1 Disk Usage">  
 
-  <img src="./assets/images/lvs-pve1.png" width="500" alt="LVS PVE 1">  
+  <img src="./assets/images/lvs-pve1.png" width="650" alt="LVS PVE 1">  
 
   <img src="./assets/images/vm200-df.png" width="500" alt="VM 200 df -h"> 
 

@@ -2,13 +2,18 @@
 
 This is the **admin bastion**: the path I use to reach the homelab from outside the LAN with **full access** to every internal resource. Once the NordVPN Meshnet overlay is up, I SSH into the bastion VM and from there I can reach any host on any homelab network.
 
-This is deliberately *not* the path used by other clients, collaborators or services — for that, see [wg-vpn-to-homelab.md](./wg-vpn-to-homelab.md). NordVPN Meshnet is admin-only and intentionally over-privileged in the DMZ firewall rules (see [networking.md](./networking.md)).
+This is *not* the path used by other clients, collaborators or services — for that, see [wg-vpn-to-homelab.md](./wg-vpn-to-homelab.md). NordVPN Meshnet is admin-only and intentionally over-privileged in the DMZ firewall rules (see [networking.md](./networking.md)).
 
-VPN: **NordVPN Meshnet**  
-VM bastion: **vpn-server** (DMZ, `10.0.0.3`)  
-Access protocol to the bastion: **SSH**  
+- VPN: **NordVPN Meshnet**  
+- VM bastion: **vpn-server** (DMZ, `10.0.0.3`)  
+- Access protocol to the bastion: **SSH**  
 
-## How to Enable VPN to Homelab
+> [!NOTE]
+> As of today, NordVPN's Meshnet service is completely free. Let's hope this doesn't change in the future.
+
+<img src="./assets/images/homelab-nordvpn-connection-diagram.png" width="1100" alt="NordVPN Connection Diagram">
+
+## NordVPN Meshnet Setup
 To enable VPN to Homelab we must generate the NordVPN Meshnet.   
 
 1. Inside the **vpn-server** VM, run the following commands:

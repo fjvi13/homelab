@@ -11,7 +11,7 @@ Access protocol to the bastion: **SSH**
 ## How to Enable VPN to Homelab
 To enable VPN to Homelab we must generate the NordVPN Meshnet.   
 
-1. Inside the **vpn-server** VM (see [VM inventory](./vm-inventory.md)), run the following commands:
+1. Inside the **vpn-server** VM, run the following commands:
 
    ```shell script
    labuser@vpn-server:~$ sudo apt-get update

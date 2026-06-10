@@ -57,3 +57,46 @@ There are several methods to create a template in Proxmox. In this section, I de
 
 ### Reference
 - [Proxmox VE - How to build an Ubuntu 22.04 Template (Updated Method)](https://www.youtube.com/watch?v=MJgIm03Jxdo)
+
+## How to change Proxmox host IPs
+
+> [!NOTE]
+> These steps apply to a **clustered** Proxmox setup. A single-node install only needs steps 1 and 2.
+
+> [!WARNING]
+> The cluster will be temporarily offline. Do this during a maintenance window and have console access ready in case SSH breaks.
+
+1. **Update host-to-IP mappings on every node.** In the Proxmox UI go to *System* → *Hosts*, or edit `/etc/hosts` directly.
+2. **Update the IP address** on the node. Either through the Proxmox UI (*System* → *Network*) or by editing `/etc/network/interfaces`.
+3. **Stop cluster services** on the node:
+   ```bash
+   systemctl stop pve-cluster corosync
+   ```
+4. **Mount `/etc/pve` in standalone mode.** With `pve-cluster` stopped, `/etc/pve` would be read-only, so start `pmxcfs` in local mode to edit the cluster config:
+   ```bash
+   pmxcfs -l
+   ```
+5. **Edit `/etc/corosync/corosync.conf`**: update the `ring0_addr` (and `ring1_addr` if a second ring is configured) for the renumbered node, and **increment `config_version`** by one. Corosync will refuse to apply a new config with the same version number.
+6. **Copy the updated config into the cluster filesystem** so the local node picks it up:
+   ```bash
+   cp /etc/corosync/corosync.conf /etc/pve/corosync.conf
+   ```
+7. **Stop the standalone pmxcfs** so the normal cluster-managed instance can start cleanly:
+   ```bash
+   killall -9 pmxcfs
+   ```
+8. **Reset failed systemd states** for the cluster services:
+   ```bash
+   systemctl reset-failed pve-cluster corosync
+   ```
+9. **Restart cluster services**:
+   ```bash
+   systemctl start pve-cluster corosync
+   ```
+10. **Verify the cluster is healthy**:
+    ```bash
+    systemctl status pve-cluster corosync
+    pvecm status
+    ```
+    All nodes should appear in `pvecm status` with their updated IPs and `Quorate: Yes`.
+

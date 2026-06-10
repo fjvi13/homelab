@@ -1,6 +1,6 @@
 # My Homelab
 
-In this repository, I document the homelab I have been building over the last year. The goal of this repo is to share my homelabbing journey: the choices, the constraints, the trade-offs, and the things I have learned (and broken) along the way.
+In this repository, I document the homelab I have been building over the last year. The goal of this repo is to share my homelabbing journey: the choices, the constraints, the trade-offs, and the things I have learned along the way.
 
 As an experienced DevOps and platform engineer, I wanted a place to run my personal projects and PoCs. In the end, things that look and behave like production: real networks, real segmentation, real virtualization, real Kubernetes. The lab has grown from a single mini PC into the setup I will describe below.
 
@@ -19,17 +19,16 @@ homelab/
 │   ├── hardware.md           # Hardware specs, diagrams, and budget
 │   ├── networking.md         # Network topology, VLANs, and device configurations
 │   ├── vm-inventory.md       # Proxmox VM and LXC inventory
-│   ├── wg-vpn-to-homelab.md  # WireGuard VPN setup guide
-│   ├── nordvpn-to-homelab.md # NordVPN Meshnet access guide
+│   ├── wg-vpn-to-homelab.md  # WireGuard VPN setup and access guide
+│   ├── nordvpn-to-homelab.md # NordVPN Meshnet setup and access guide
 │   ├── faq.md                # Frequently asked questions
 │   ├── roadmap.md            # Ongoing and planned work
 │   └── assets/images/        # Diagrams and screenshots
 ├── tutorials/
 │   ├── k3s.md                # K3s cluster setup
 │   └── vms.md                # VM provisioning
-├── projects/                 # Personal projects deployed in the lab
 ├── old/                      # Legacy / archived notes
-└── README.md
+└── README.md                 # This document
 ```
 
 ## What I Wanted to Build
@@ -38,10 +37,10 @@ homelab/
 
 Before buying any hardware I tried to be honest about what I actually wanted out of this lab:
 
-- A flexible platform to expand my knowledge of **virtualization**, like Proxmox VE.
+- A flexible platform to expand my knowledge of **virtualization**, and **Linux system administration**.
 - A real **Kubernetes** environment to deploy services to (not a single-node `kind` or `minikube` cluster).
-- A **segmented network** so I could play with VLANs, firewalls, and routing instead of putting everything on the same flat LAN.
-- **Secure remote access** to the lab from anywhere — without exposing services to the open internet.
+- A **segmented network** so I could play with VLANs, firewalls, and routing.
+- **Secure Remote access** from anywhere through a VPN, keeping internal services off the public internet.
 - Something that could fit on a shelf, run 24/7, and not show up too visibly on my electricity bill.
 
 I tried to follow the KISS principle: each new piece had to earn its place, and I would rather have two clean nodes than five messy ones.
@@ -54,14 +53,14 @@ The compute side of the lab is built around **two HP EliteDesk 800 G3 Desktop Mi
 
 On the networking side I went with a **TP-Link TL-SG608E** — a small, 8-port managed switch with full 802.1Q VLAN support. It is cheap, silent, and does everything I need at this scale.
 
-At this moment, the internet uplink and the home Wi-Fi are still handled by the ISP-provided Home Gateway AP-Router, a **DIGI ZTE H3600P**. It sits in front of everything and only sees one IP from the lab (pfSense's WAN address).
+At this moment, the internet uplink and the home Wi-Fi are still handled by the ISP-provided Home Gateway AP-Router, a **DIGI ZTE H3600P**. It sits in front of everything and only sees one IP from the lab (pfSense's HOME address).
 
 ### Budget
 
 | Device                     | Cost                       |
 |----------------------------|----------------------------|
-| HP EliteDesk 800 G3 DM 35W | ~129€ (Refurbished) [2025] |
-| HP EliteDesk 800 G3 DM 65W | ~160€ (Refurbished) [2025] |
+| HP EliteDesk 800 G3 DM 35W | ~130€ (Refurbished) [2025] |
+| HP EliteDesk 800 G3 DM 65W | ~140€ (Refurbished) [2025] |
 | tp-link TL-SG608E          | 32,99€ [2026]              |
 | DIGI ZTE H3600P            | Included with my ISP plan  |
 
@@ -71,15 +70,18 @@ More on this in [hardware.md](./docs/hardware.md).
 
 <img src="./docs/assets/images/homelab-L3-arquitecture-diagram.png" width="800" alt="L3 Architecture Diagram">
 
-**pfSense** is the brain of the lab. It runs as a VM on `pve2` with three virtual NICs — one per VLAN — and handles routing, DHCP, and firewalling between segments.
+**pfSense** is the brain of the lab. It runs as a VM on `pve2` with five virtual NICs — one per VLAN — and handles routing, DHCP, and firewalling between segments.
 
 The lab is split into the following networks:
 
-- **VLAN 0 (Default) — Home Network — `192.168.1.0/24`**
-  This is my home LAN and also the homelab's management network. It is where I reach Proxmox, pfSense, and the switch admin UIs. It is also the only VLAN the ISP router can see directly. Splitting guest Wi-Fi off this network is on my to-do list.
+- **VLAN 1 (Default) — Home Network — `192.168.1.0/24`**
+  My home LAN, also reachable via Wi-Fi. The ISP router lives here and provides internet egress to the rest of the lab.
+
+- **VLAN 2 — MGMT Network — `172.16.1.0/24`**
+  The homelab management plane. This is where I reach Proxmox, pfSense, and the switch admin UIs. Access is tightly restricted — only my admin workstation on HOME can reach it.
 
 - **VLAN 10 — Lab Network — `10.0.1.0/24`**
-  The "real" homelab network. All Proxmox VMs and LXCs land here by default. This is also where both of my K3s clusters live.
+  The "real" homelab network. All Proxmox VMs and LXCs land here by default. Both K3s clusters live here.
 
 - **VLAN 20 — DMZ — `10.0.0.0/28`**
   A small isolated segment for the VPN bastion servers. Only these two hosts live here, and pfSense rules tightly control what they can reach.
@@ -87,7 +89,7 @@ The lab is split into the following networks:
 - **VLAN 30 — IoT — WIP**
   Reserved for future smart-home devices.
 
-On the switch, ports 2 and 3 (connected to `pve1` and `pve2`) are configured as **trunk ports** carrying VLAN 10 and VLAN 20 tagged, with VLAN 1 untagged for management. Inside each Proxmox node, all VLANs flow through a single Linux bridge (`vmbr0`); the VLAN tag is applied at the VM NIC level.
+On the switch, ports 2 and 3 (connected to `pve1` and `pve2`) are configured as **trunk ports** carrying VLANs 1, 2, 10, and 20 all tagged. The untagged VLANs sit on access ports: VLAN 1 on port 1 (uplink to the ISP router) and VLAN 2 on port 8. Inside each Proxmox node, all VLANs flow through a single Linux bridge (`vmbr0`); the VLAN tag is applied at the VM NIC level.
 
 See [networking.md](./docs/networking.md) for the full details.
 
@@ -103,14 +105,13 @@ Running on top of this network are two Kubernetes clusters and a pair of VPN bas
 
 Some of the things I am planning to work on next. See [roadmap](./docs/roadmap.md) for the full backlog.
 
-- Split the Home Network into a dedicated **MGMT network** and a **Guest Wi-Fi network**.
 - Bring the **IoT VLAN (30)** online for smart-home devices.
 - Replace the ISP-provided router with my own equipment.
 - Deploy and document some personal projects.
 
 ## References & Inspiration
 
-A few of the resources that helped me along the way:
+Some of the resources that helped me along the way:
 
 - [Learn Linux TV](https://www.youtube.com/@LearnLinuxTV)
 - [Mischa van den Burg](https://www.youtube.com/@mischavandenburg)

@@ -111,6 +111,7 @@ To enable VPN to Homelab we must generate the NordVPN Meshnet.
       inet 100.72.151.12/10 scope global nordlynx
          valid_lft forever preferred_lft forever
    ```
+   
    > [!NOTE]
    > Get the token from the NordVPN web portal.
 
